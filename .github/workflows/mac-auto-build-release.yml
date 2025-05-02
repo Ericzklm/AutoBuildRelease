@@ -101,7 +101,12 @@ jobs:
           mkdir dmg
           cd dmg
           mv ../SerialPrograms.app ./SerialPrograms.app
-          create-dmg --volname "SerialPrograms Installer" \
+
+          # Workaround for https://github.com/actions/runner-images/issues/7522
+          i = 0
+          max_retries = 10
+
+          until create-dmg --volname "SerialPrograms Installer" \
             --window-pos 150 150 \
             --window-size 600 400  \
             --icon-size 128 \
@@ -110,6 +115,17 @@ jobs:
             --app-drop-link 450 160 \
             "SerialPrograms-Installer.dmg" \
             "./"
+
+          do
+            if [ $i -eq $max_retries ]; then
+              echo "Failed to create disk image after $max_retries attempts."
+              exit 1
+            fi
+            echo "Retrying create-dmg... Attempt $((i+1))"
+            sleep 5
+            i=$((i+1))
+          done
+
           mv SerialPrograms-Installer.dmg $GITHUB_WORKSPACE/SerialPrograms-Installer.dmg
           
       - name: Upload artifact
