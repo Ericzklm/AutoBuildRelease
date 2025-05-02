@@ -1,14 +1,10 @@
 name: SerialPrograms MacOS Release
 
 on:
-  push:
-    branches:
-      - 'v*'
   workflow_dispatch:
-    # Manual release / testing
     inputs:
       version:
-        description: 'Version for the manual release'
+        description: 'Version for the manual release. This should match the branch of Arduino-Source.'
         required: true
       jobs:
         description: 'Number of parallel jobs to build with'
@@ -17,9 +13,10 @@ on:
       qt_version:
         description: 'Qt version to use'
         required: true
-        default: '6.8.2'
+        default: '6.9.0'
         type: choice
         options:
+          - '6.9.0'
           - '6.8.2'
           - '6.5.3'
       runner:
@@ -34,15 +31,13 @@ on:
 
 jobs:
   build:
-    # Run when manually triggered, when a new version branch is created, or when a version branch is updated
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/v'))
-    runs-on: ${{ github.event.inputs.runner || 'macos-13'}}
+    runs-on: ${{ github.event.inputs.runner }}
     steps:
       - name: Checkout Arduino-Source
         uses: actions/checkout@v4
         with:
+          repository: 'PokemonAutomation/Arduino-Source'
+          ref: ${{ github.event.inputs.version }}
           path: Arduino-Source
 
       - name: Checkout Packages
@@ -58,12 +53,9 @@ jobs:
           brew install tesseract-lang
           brew install opencv
 
-      - name: Get QT Version
-        run: echo "QT_VERSION=${{ github.event.inputs.qt_version || '6.8.2' }}" >> $GITHUB_ENV
-
       - uses: jurplel/install-qt-action@v4
         with:
-          version: ${{ env.QT_VERSION }}
+          version: ${{ github.event.inputs.qt_version }}
           modules: 'qtmultimedia qtserialport'
 
       - name: Build SerialPrograms.app
@@ -109,7 +101,12 @@ jobs:
           mkdir dmg
           cd dmg
           mv ../SerialPrograms.app ./SerialPrograms.app
-          create-dmg --volname "SerialPrograms Installer" \
+
+          # Workaround for https://github.com/actions/runner-images/issues/7522
+          i=0
+          max_retries=10
+
+          until create-dmg --volname "SerialPrograms Installer" \
             --window-pos 150 150 \
             --window-size 600 400  \
             --icon-size 128 \
@@ -118,6 +115,17 @@ jobs:
             --app-drop-link 450 160 \
             "SerialPrograms-Installer.dmg" \
             "./"
+
+          do
+            if [ $i -eq $max_retries ]; then
+              echo "Failed to create disk image after $max_retries attempts."
+              exit 1
+            fi
+            echo "Retrying create-dmg... Attempt $((i+1))"
+            sleep 5
+            i=$((i+1))
+          done
+
           mv SerialPrograms-Installer.dmg $GITHUB_WORKSPACE/SerialPrograms-Installer.dmg
           
       - name: Upload artifact
@@ -129,9 +137,9 @@ jobs:
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          body: "${{ github.event.inputs.version }} MacOS Release"
           files: |
             SerialPrograms-Installer.dmg
             Packages/PABotBase/PABotBase-Switch/*
-          # Tag should be automatically set in the case of a tag push
-          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          tag_name: ${{ github.event.inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
