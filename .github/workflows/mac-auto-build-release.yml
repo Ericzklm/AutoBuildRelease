@@ -137,6 +137,7 @@ jobs:
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          body: "${{ github.event.inputs.version }} MacOS Release"
           files: |
             SerialPrograms-Installer.dmg
             Packages/PABotBase/PABotBase-Switch/*
