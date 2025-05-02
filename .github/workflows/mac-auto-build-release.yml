@@ -103,8 +103,8 @@ jobs:
           mv ../SerialPrograms.app ./SerialPrograms.app
 
           # Workaround for https://github.com/actions/runner-images/issues/7522
-          i = 0
-          max_retries = 10
+          i=0
+          max_retries=10
 
           until create-dmg --volname "SerialPrograms Installer" \
             --window-pos 150 150 \
