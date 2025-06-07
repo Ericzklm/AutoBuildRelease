@@ -52,6 +52,7 @@ jobs:
           brew install tesseract
           brew install tesseract-lang
           brew install opencv
+          brew install onnxruntime
 
       - uses: jurplel/install-qt-action@v4
         with:
