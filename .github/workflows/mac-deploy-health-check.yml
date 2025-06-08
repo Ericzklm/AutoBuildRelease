@@ -79,7 +79,7 @@ jobs:
       - name: Create disk image
         run: |
           brew install create-dmg
-          DMG_NAME="SerialPrograms-Prerelease-${{ steps.date.output.date }}.dmg"
+          DMG_NAME="SerialPrograms-Prerelease-${{ steps.date.outputs.date }}.dmg"
           mkdir dmg
           cd dmg
           mv ../SerialPrograms.app ./SerialPrograms.app
