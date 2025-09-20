@@ -79,13 +79,13 @@ jobs:
           cp $BREW_PREFIX/opt/protobuf/lib/libutf8_validity.dylib SerialPrograms.app/Contents/Frameworks
           cp $BREW_PREFIX/opt/webp/lib/libsharpyuv.0.dylib SerialPrograms.app/Contents/Frameworks
           cp $BREW_PREFIX/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-9.5.2.dylib SerialPrograms.app/Contents/Frameworks
 
       # Use macdeployqt to bundle the app with dependencies
       - name: Run macdeployqt
