@@ -3,8 +3,11 @@ name: SerialPrograms MacOS Release
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: 'Branch for the manual release. This should match the branch of Arduino-Source.'
+        required: true
       version:
-        description: 'Version for the manual release. This should match the branch of Arduino-Source.'
+        description: 'Version for the release (e.g. v0.55.5)'
         required: true
       jobs:
         description: 'Number of parallel jobs to build with'
@@ -37,7 +40,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'PokemonAutomation/Arduino-Source'
-          ref: ${{ github.event.inputs.version }}
+          ref: ${{ github.event.inputs.branch }}
           path: Arduino-Source
 
       - name: Checkout Packages
@@ -79,13 +82,13 @@ jobs:
           cp $BREW_PREFIX/opt/protobuf/lib/libutf8_validity.dylib SerialPrograms.app/Contents/Frameworks
           cp $BREW_PREFIX/opt/webp/lib/libsharpyuv.0.dylib SerialPrograms.app/Contents/Frameworks
           cp $BREW_PREFIX/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
-          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-9.4.1.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-*.dylib SerialPrograms.app/Contents/Frameworks
 
       # Use macdeployqt to bundle the app with dependencies
       - name: Run macdeployqt
