@@ -9,6 +9,10 @@ on:
       version:
         description: 'Version for the release (e.g. v0.55.5)'
         required: true
+      package_version:
+        description: 'Commit SHA of the Packages repo with PABotBases compatible with the given release version'
+        required: false
+        default: 'master'
       jobs:
         description: 'Number of parallel jobs to build with'
         default: 4
@@ -48,6 +52,7 @@ jobs:
         with:
           repository: 'PokemonAutomation/Packages'
           path: Packages
+          ref: ${{ github.event.inputs.packages_ref }}
 
       # MacOS runners have Homebrew, Xcode, and Cmake already installed
       - name: Install Dependencies
