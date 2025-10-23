@@ -61,6 +61,7 @@ jobs:
           brew install tesseract-lang
           brew install opencv
           brew install onnxruntime
+          brew install llvm
 
       - uses: jurplel/install-qt-action@v4
         with:
@@ -69,10 +70,11 @@ jobs:
 
       - name: Build SerialPrograms.app
         run: |
+          BREW_PREFIX=$(brew --prefix)
           cd Arduino-Source/SerialPrograms
           mkdir bin
           cd bin
-          cmake .. -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
+          cmake .. -DCMAKE_C_COMPILER=${brew_prefix}/llvm/bin/clang -DCMAKE_CXX_COMPILER=${brew_prefix}/llvm/bin/clang++ -DCMAKE_CXX_STANDARD=20 -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
           cmake --build . -j ${{ github.event.inputs.jobs || 4}}
           cp -r SerialPrograms.app ../../../SerialPrograms.app
 
