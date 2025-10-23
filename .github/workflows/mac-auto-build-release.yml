@@ -70,11 +70,11 @@ jobs:
 
       - name: Build SerialPrograms.app
         run: |
-          BREW_PREFIX=$(brew --prefix)
+          BREW_PREFIX=$(brew --prefix llvm)
           cd Arduino-Source/SerialPrograms
           mkdir bin
           cd bin
-          cmake .. -DCMAKE_C_COMPILER=$BREW_PREFIX/llvm/bin/clang -DCMAKE_CXX_COMPILER=$BREW_PREFIX/llvm/bin/clang++ -DCMAKE_CXX_STANDARD=20 -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
+          cmake .. -DCMAKE_C_COMPILER=$BREW_PREFIX/bin/clang -DCMAKE_CXX_COMPILER=$BREW_PREFIX/bin/clang++ -DCMAKE_CXX_STANDARD=20 -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
           cmake --build . -j ${{ github.event.inputs.jobs || 4}}
           cp -r SerialPrograms.app ../../../SerialPrograms.app
 
