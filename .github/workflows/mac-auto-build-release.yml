@@ -43,7 +43,7 @@ jobs:
       - name: Checkout Arduino-Source
         uses: actions/checkout@v4
         with:
-          repository: 'PokemonAutomation/Arduino-Source'
+          repository: 'Ericzklm/Arduino-Source'
           ref: ${{ github.event.inputs.branch }}
           path: Arduino-Source
 
@@ -61,7 +61,6 @@ jobs:
           brew install tesseract-lang
           brew install opencv
           brew install onnxruntime
-          brew install llvm
 
       - uses: jurplel/install-qt-action@v4
         with:
@@ -70,11 +69,10 @@ jobs:
 
       - name: Build SerialPrograms.app
         run: |
-          BREW_PREFIX=$(brew --prefix llvm)
           cd Arduino-Source/SerialPrograms
           mkdir bin
           cd bin
-          cmake .. -DCMAKE_C_COMPILER=$BREW_PREFIX/bin/clang -DCMAKE_CXX_COMPILER=$BREW_PREFIX/bin/clang++ -DCMAKE_CXX_STANDARD=20 -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
+          cmake .. -DUNIX_LINK_TESSERACT:BOOL=true -DCMAKE_BUILD_TYPE:STRING=Release
           cmake --build . -j ${{ github.event.inputs.jobs || 4}}
           cp -r SerialPrograms.app ../../../SerialPrograms.app
 
