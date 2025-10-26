@@ -73,23 +73,23 @@ jobs:
 
       # Important: GitHub MacOS runners do not have the lib area in its rpath by default. It must manually be added for frameworks to be discovered and added to the bundle
       # Some libraries are not copied in QT deployment on the runner but will still be proprely linked if they're added prior to deployment
-      # - name: rpath resolution
-      #   run: |
-      #     BREW_PREFIX=$(brew --prefix)
-      #     install_name_tool -add_rpath $BREW_PREFIX/lib SerialPrograms.app/Contents/MacOS/SerialPrograms
-      #     otool -l SerialPrograms.app/Contents/MacOS/SerialPrograms | grep -A2 LC_RPATH
-      #     mkdir SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/gcc/lib/gcc/current/libgcc_s.1.1.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/protobuf/lib/libutf8_validity.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/webp/lib/libsharpyuv.0.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-*.dylib SerialPrograms.app/Contents/Frameworks
-      #     cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-*.dylib SerialPrograms.app/Contents/Frameworks
+      - name: rpath resolution
+        run: |
+          BREW_PREFIX=$(brew --prefix)
+          install_name_tool -add_rpath $BREW_PREFIX/lib SerialPrograms.app/Contents/MacOS/SerialPrograms
+          otool -l SerialPrograms.app/Contents/MacOS/SerialPrograms | grep -A2 LC_RPATH
+          mkdir SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/gcc/lib/gcc/current/libgcc_s.1.1.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/protobuf/lib/libutf8_validity.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/webp/lib/libsharpyuv.0.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonComputationalGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersVerdict-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkfmt-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersGeometry-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkFiltersCore-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonCore-*.dylib SerialPrograms.app/Contents/Frameworks
+          cp $BREW_PREFIX/opt/vtk/lib/libvtkCommonSystem-*.dylib SerialPrograms.app/Contents/Frameworks
 
       # Use macdeployqt to bundle the app with dependencies
       - name: Run macdeployqt
