@@ -64,6 +64,7 @@ jobs:
 
       - name: Build SerialPrograms.app
         run: |
+          find /opt/homebrew -name macdeployqt
           cd Arduino-Source/SerialPrograms
           mkdir bin
           cd bin
