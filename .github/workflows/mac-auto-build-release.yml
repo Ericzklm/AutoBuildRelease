@@ -33,8 +33,8 @@ on:
 
 jobs:
   build:
-    name: Build SerialPrograms ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Build SerialPrograms ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
         include:
