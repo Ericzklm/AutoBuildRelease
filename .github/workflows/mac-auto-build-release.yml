@@ -52,13 +52,6 @@ jobs:
           ref: ${{ github.event.inputs.branch }}
           path: Arduino-Source
 
-      - name: Checkout Packages
-        uses: actions/checkout@v4
-        with:
-          repository: 'PokemonAutomation/Packages'
-          path: Packages
-          ref: ${{ github.event.inputs.package_version }}
-
       # MacOS runners have Homebrew, Xcode, and Cmake already installed
       - name: Install Dependencies
         run: | 
@@ -148,14 +141,22 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Packages
+        uses: actions/checkout@v4
+        with:
+          repository: 'PokemonAutomation/Packages'
+          path: Packages
+          ref: ${{ github.event.inputs.package_version }}
       - name: Download Artifacts
         uses: actions/download-artifact@v5
+        with:
+          path: dmgs
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           body: "${{ github.event.inputs.version }} MacOS Release"
           files: |
-            SerialPrograms-Installer*.dmg
+            dmgs/*.dmg
             Packages/Firmware/*
           tag_name: ${{ github.event.inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
