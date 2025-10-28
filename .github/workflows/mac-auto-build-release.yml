@@ -31,11 +31,9 @@ on:
           - '6.8.2'
           - '6.5.3'
 
- 
-
 jobs:
   build:
-    name: Build SerialPrograms {{ matrix.os }}
+    name: Build SerialPrograms ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
