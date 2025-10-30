@@ -128,13 +128,13 @@ jobs:
             sleep 5
             i=$((i+1))
           done
-          mv SerialPrograms-Installer.dmg $GITHUB_WORKSPACE/SerialPrograms-Installer.dmg
+          mv SerialPrograms-Installer.dmg $GITHUB_WORKSPACE/SerialPrograms-Installer-${{ matrix.arch }}.dmg
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SerialPrograms-Installer-${{ matrix.arch }}.dmg
-          path: SerialPrograms-Installer.dmg
+          name: SerialPrograms-Installer-${{ matrix.arch }}
+          path: SerialPrograms-Installer-${{ matrix.arch }}.dmg
 
   release:
     name: Create GitHub Release
