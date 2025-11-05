@@ -68,7 +68,12 @@ jobs:
         run: |
           BREW_PREFIX=$(brew --prefix)
           brew tap-new --no-git runner/libdpp
-          cp Arduino-Source/3rdPartyBinaries/libdpp@10.0.22.rb $BREW_PREFIX/Library/Taps/runner/homebrew-libdpp/Formula/
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            TAP_PATH="$BREW_PREFIX/Library/Taps/runner/homebrew-libdpp/Formula/"
+          else
+            TAP_PATH="$BREW_PREFIX/Homebrew/Library/Taps/runner/homebrew-libdpp/Formula/"
+          fi
+          cp Arduino-Source/3rdPartyBinaries/libdpp@10.0.22.rb "$TAP_PATH"
           brew install libdpp@10.0.22
 
       - name: Build SerialPrograms.app
