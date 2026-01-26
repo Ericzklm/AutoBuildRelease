@@ -64,6 +64,15 @@ jobs:
           version: ${{ github.event.inputs.qt_version }}
           modules: 'qtmultimedia qtserialport'
 
+      - name: Install DPP v10.0.28
+        run: |
+          BREW_PREFIX=$(brew --prefix)
+          brew tap-new --no-git runner/libdpp
+          FORMULA_DIR="$(brew --repo PA/libdpp)/Formula"
+          mkdir -p "$FORMULA_DIR"
+          cp Arduino-Source/3rdPartyBinaries/libdpp@10.0.28.rb "$FORMULA_DIR/"
+          brew install libdpp@10.0.28
+
       - name: Build SerialPrograms.app
         run: |
           cd Arduino-Source/SerialPrograms
