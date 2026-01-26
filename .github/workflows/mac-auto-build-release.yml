@@ -64,17 +64,14 @@ jobs:
           version: ${{ github.event.inputs.qt_version }}
           modules: 'qtmultimedia qtserialport'
 
-      - name: Install DPP v10.0.22
+      - name: Install DPP v10.0.28
         run: |
           BREW_PREFIX=$(brew --prefix)
           brew tap-new --no-git runner/libdpp
-          if [ "${{ matrix.arch }}" = "arm64" ]; then
-            TAP_PATH="$BREW_PREFIX/Library/Taps/runner/homebrew-libdpp/Formula/"
-          else
-            TAP_PATH="$BREW_PREFIX/Homebrew/Library/Taps/runner/homebrew-libdpp/Formula/"
-          fi
-          cp Arduino-Source/3rdPartyBinaries/libdpp@10.0.22.rb "$TAP_PATH"
-          brew install libdpp@10.0.22
+          FORMULA_DIR="$(brew --repo PA/libdpp)/Formula"
+          mkdir -p "$FORMULA_DIR"
+          cp Arduino-Source/3rdPartyBinaries/libdpp@10.0.28.rb "$FORMULA_DIR/"
+          brew install libdpp@10.0.28
 
       - name: Build SerialPrograms.app
         run: |
